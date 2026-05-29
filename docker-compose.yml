@@ -1,0 +1,51 @@
+services:
+  # --- BACKEND FASTAPI WORKER NODE ---
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/workspace/backend
+    environment:
+      - ENV=development
+      - REDIS_URL=redis://cache_coordinator:6379/0
+    networks:
+      - retailos_mesh_network
+    depends_on:
+      - cache_coordinator
+
+  # --- FRONTEND REACT GATEWAY ---
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend:/workspace/frontend
+    networks:
+      - retailos_mesh_network
+    depends_on:
+      - backend
+
+  # --- HIGH-SPEED IN-MEMORY STORAGE ---
+  cache_coordinator:
+    image: redis:7.2-alpine
+    container_name: retailos_cache_cluster
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_persistent_volume:/data
+    networks:
+      - retailos_mesh_network
+
+# --- ISOLATED INFRASTRUCTURE TOPOLOGY ---
+networks:
+  retailos_mesh_network:
+    driver: bridge
+
+volumes:
+  redis_persistent_volume:
+    driver: local
