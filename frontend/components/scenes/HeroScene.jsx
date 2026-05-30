@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
@@ -42,19 +43,24 @@ const STATS = [
  */
 function LiveCounter() {
   const [count, setCount] = useState(18472091);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const t = setInterval(() => {
       setCount((c) => c + Math.floor(Math.random() * 7 + 2));
     }, 800);
     return () => clearInterval(t);
   }, []);
 
+  // Render static placeholder during SSR to prevent hydration mismatch
+  const displayCount = mounted ? count.toLocaleString() : "18,472,091";
+
   return (
     <div className="hero-live-counter">
       <div className="hero-live-dot" />
       <span>
-        <span className="hero-counter-num">{count.toLocaleString()}</span>
+        <span className="hero-counter-num">{displayCount}</span>
         &nbsp;signals processed
       </span>
     </div>
@@ -186,7 +192,7 @@ export function HeroScene() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
         >
-          <a
+          <Link
             className="hero-portal-btn"
             href="/experience/dataset"
             id="hero-enter-btn"
@@ -194,14 +200,14 @@ export function HeroScene() {
             <Zap size={15} />
             Enter System
             <ArrowRight size={15} />
-          </a>
-          <a
+          </Link>
+          <Link
             className="hero-cta-secondary"
             href="/experience/forecast"
             id="hero-forecast-cta"
           >
             View Forecast
-          </a>
+          </Link>
         </motion.div>
 
         {/* Live counter */}

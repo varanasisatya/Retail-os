@@ -36,12 +36,31 @@ export function RetailDataProvider({ children }) {
         } catch (_) {}
       }
     }
-    return { userId: "RETAIL_OS_USER_983", theme: "cinema-dark" };
+    return { userId: "RETAIL_OS_USER_983", theme: "cinema-dark", isLoggedIn: false };
   });
 
   useEffect(() => {
     localStorage.setItem("retailos_user_session", JSON.stringify(userSession));
   }, [userSession]);
+
+  // Auth helpers
+  const login = useCallback((credentials) => {
+    const { email, password } = credentials;
+    // Demo credentials check
+    const valid =
+      (email === "admin@retailos.ai" && password === "neural-core-2026") ||
+      // Also accept any non-empty input as a demo login
+      (email.trim().length > 3 && password.trim().length > 3);
+    if (valid) {
+      setUserSession((prev) => ({ ...prev, isLoggedIn: true, loginAt: new Date().toISOString() }));
+      return true;
+    }
+    return false;
+  }, []);
+
+  const logout = useCallback(() => {
+    setUserSession((prev) => ({ ...prev, isLoggedIn: false }));
+  }, []);
 
   // Drawer open state persistence (remember last visit)
   const [isDrawerOpen, setIsDrawerOpen] = useState(() => {
@@ -186,6 +205,8 @@ export function RetailDataProvider({ children }) {
         uploadLatencyMs,
         userSession,
         setUserSession,
+        login,
+        logout,
         isDrawerOpen,
         setIsDrawerOpen,
         isConsoleOpen,

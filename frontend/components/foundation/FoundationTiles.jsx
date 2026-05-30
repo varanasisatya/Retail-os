@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
+import Link from "next/link";
 import { useRef } from "react";
 import {
   Brain, UploadCloud, TrendingUp, MapPin, Package, Zap,
@@ -89,12 +90,12 @@ export function PlatformFeatures() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
           <div className="pf-cta-line" aria-hidden="true" />
-          <a className="cinema-button primary" href="/experience/dataset" id="features-upload-cta">
+          <Link className="cinema-button primary" href="/experience/dataset" id="features-upload-cta">
             <UploadCloud size={14} />Upload Your Dataset
-          </a>
-          <a className="cinema-button" href="/experience/intelligence" id="features-intel-cta">
+          </Link>
+          <Link className="cinema-button" href="/experience/intelligence" id="features-intel-cta">
             <Zap size={14} />View Live Feed
-          </a>
+          </Link>
           <div className="pf-cta-line" aria-hidden="true" />
         </motion.div>
       </div>

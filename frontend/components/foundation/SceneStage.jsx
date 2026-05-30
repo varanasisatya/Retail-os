@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight, Orbit } from "lucide-react";
+import Link from "next/link";
 import { motionTimings, sceneMotion } from "@/lib/motion";
 
 export function SceneStage({ scene }) {
@@ -25,10 +26,10 @@ export function SceneStage({ scene }) {
         </h1>
         <p className="scene-description">{scene.description}</p>
         <div className="scene-actions">
-          <a className="cinema-button primary" href="/experience/signal">
+          <Link className="cinema-button primary" href="/experience/dataset">
             Begin Scene Map
             <ArrowRight size={17} />
-          </a>
+          </Link>
           <a className="cinema-button" href="#foundation-system">
             View Foundation
           </a>

@@ -6,6 +6,7 @@ import { Upload, Zap, CheckCircle, AlertCircle, FileText, X, Brain } from "lucid
 import { useRetailData } from "@/lib/retailContext";
 import CSVUploadValidator from "./CSVUploadValidator";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 
 const NeuralUniverse = dynamic(
   () => import("./NeuralUniverse").then((m) => ({ default: m.NeuralUniverse })),
@@ -18,13 +19,23 @@ const ACCEPTED_COLUMNS = [
 ];
 
 // Boot-style status messages during upload
-const INGEST_MESSAGES = [
-  "READING CSV HEADERS...",
+const INGEST_MESSAGES_CSV = [
+  "READING DATA HEADERS...",
   "NORMALIZING DATA SCHEMA...",
   "PARSING TEMPORAL SIGNALS...",
   "RUNNING NEURAL FORECAST...",
   "COMPILING INTELLIGENCE REPORT...",
 ];
+
+const INGEST_MESSAGES_MEDIA = [
+  "DECODING DOCUMENT MATRIX...",
+  "EXTRACTING RETAIL SIGNALS...",
+  "RUNNING OCR INTELLIGENCE...",
+  "MAPPING DATA TOPOLOGY...",
+  "COMPILING INTELLIGENCE REPORT...",
+];
+
+const INGEST_MESSAGES = INGEST_MESSAGES_CSV; // default
 
 function HolographicRing({ active, error }) {
   return (
@@ -133,8 +144,7 @@ export function DatasetUploadScene() {
 
   const handleFile = useCallback((file) => {
     if (!file) return;
-    const ext = file.name.split(".").pop().toLowerCase();
-    if (!["csv", "xlsx", "xls"].includes(ext)) return;
+    // Accept all file formats — the backend intelligently processes any dataset type
     uploadFile(file);
   }, [uploadFile]);
 
@@ -163,13 +173,13 @@ export function DatasetUploadScene() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
       >
-        <p className="scene-kicker"><Zap size={14} />INTELLIGENCE INGESTION ENGINE</p>
+        <p className="scene-kicker"><Zap size={14} />MULTIMODAL INTELLIGENCE INGESTION</p>
         <h2 className="upload-title">
           <span>Feed the</span>
           <span className="gradient-text">Neural Core</span>
         </h2>
         <p className="upload-subtitle">
-          Drop your retail dataset. The AI engine parses, cleans, and forecasts in under 2 seconds.
+          Upload your retail dataset in any format — CSV, PDF, or image. The AI engine parses, cleans, and forecasts in seconds.
         </p>
       </motion.div>
 
@@ -255,12 +265,12 @@ export function DatasetUploadScene() {
             exit={{ opacity: 0 }}
             transition={{ delay: 0.4, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
-            <a className="cinema-button primary" href="/experience/forecast" id="upload-forecast-cta">
+            <Link className="cinema-button primary" href="/experience/forecast" id="upload-forecast-cta">
               Enter Forecast Universe <span className="btn-arrow">→</span>
-            </a>
-            <a className="cinema-button" href="/experience/intelligence" id="upload-intel-cta">
+            </Link>
+            <Link className="cinema-button" href="/experience/intelligence" id="upload-intel-cta">
               <Brain size={14} /> View Intelligence Feed
-            </a>
+            </Link>
             <button className="cinema-button" onClick={reset}>
               Upload New Dataset
             </button>

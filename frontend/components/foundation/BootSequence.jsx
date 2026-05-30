@@ -26,6 +26,7 @@ export function BootSequence({ onComplete }) {
     if (typeof window !== "undefined") {
       const booted = sessionStorage.getItem("ros_booted");
       if (booted) {
+        setDone(true);
         onComplete();
         return;
       }

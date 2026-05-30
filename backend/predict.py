@@ -26,7 +26,7 @@ class RetailPredictiveEngine:
         weekly_weights = [0.94, 0.98, 1.02, 1.05, 1.13, 1.2, 1.08]
 
         timeline = []
-        for index in range(1, 31):
+        for index in range(1, 91):
             date = last_date + timedelta(days=index)
             predicted = max(0, (baseline + trend * index) * weekly_weights[date.weekday()])
             timeline.append({"date": date.isoformat(), "predicted_revenue": round(predicted, 2)})

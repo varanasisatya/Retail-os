@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, forwardRef } from "react";
 import dynamic from "next/dynamic";
 import PropTypes from "prop-types";
 import {
@@ -109,13 +109,14 @@ TypewriterSignal.propTypes = {
  * @param {string} props.signal.msg - Raw string content to print
  * @returns {React.ReactElement}
  */
-function TerminalSignalRow({ signal }) {
+const TerminalSignalRow = forwardRef(({ signal }, ref) => {
   const config = SIGNAL_TYPES[signal.type] ?? SIGNAL_TYPES.neural;
   const Icon = config.icon;
   const colorVal = config.color;
 
   return (
     <motion.div
+      ref={ref}
       layout
       initial={{ opacity: 0, scale: 0.97, y: -15 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -152,7 +153,9 @@ function TerminalSignalRow({ signal }) {
       </div>
     </motion.div>
   );
-}
+});
+
+TerminalSignalRow.displayName = "TerminalSignalRow";
 
 TerminalSignalRow.propTypes = {
   signal: PropTypes.shape({
@@ -329,7 +332,7 @@ export function IntelligenceFeedScene() {
               onMouseEnter={(e) => e.currentTarget.style.opacity = 0.8}
               onMouseLeave={(e) => e.currentTarget.style.opacity = 1}
             >
-              {hasError ? <Wifi size={10} style={{ color: "var(--color-rose)" }} /> : <WifiOff size={10} style={{ color: "var(--color-cyan)" }} />}
+              {hasError ? <Wifi size={10} style={{ color: "var(--color-cyan)" }} /> : <WifiOff size={10} style={{ color: "var(--color-rose)" }} />}
               {hasError ? "ESTABLISH LINK" : "DISRUPT STREAM"}
             </button>
           </div>
