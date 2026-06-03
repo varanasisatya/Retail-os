@@ -28,6 +28,7 @@ export default function SystemHealthBar() {
 
   const tier = usePerformanceTier();
   const [isCoreOnline, setIsCoreOnline] = useState(true);
+  const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000";
 
   // Map performance quality tier to target FPS
   const fpsMap = { high: 60, medium: 45, low: 30 };
@@ -37,7 +38,7 @@ export default function SystemHealthBar() {
   useEffect(() => {
     const checkHealth = async () => {
       try {
-        const res = await fetch("http://127.0.0.1:8000/health", { cache: "no-store" });
+        const res = await fetch(`${apiBase}/health`, { cache: "no-store" });
         setIsCoreOnline(res.ok);
       } catch (err) {
         setIsCoreOnline(false);

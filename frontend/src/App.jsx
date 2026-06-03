@@ -48,7 +48,7 @@ import NeuralBackground from "./components/NeuralBackground.jsx";
 import TrendRadar from "./components/TrendRadar.jsx";
 
 const chartPalette = ["#22d3ee", "#34d399", "#f59e0b", "#e879f9", "#94a3b8"];
-const apiBase = "http://127.0.0.1:8000";
+const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000";
 
 // Auth Context
 const AuthContext = React.createContext(null);

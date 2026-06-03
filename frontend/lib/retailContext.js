@@ -97,6 +97,7 @@ export function RetailDataProvider({ children }) {
 
   // Selected drilldown data
   const [drilldownData, setDrilldownData] = useState(null);
+  const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000";
 
   const triggerDrilldown = useCallback((date, value) => {
     setDrilldownData({ date, value });
@@ -126,7 +127,7 @@ export function RetailDataProvider({ children }) {
     const startTime = performance.now();
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/v1/analytics/async-compute", {
+      const res = await fetch(`${apiBase}/api/v1/analytics/async-compute`, {
         method: "POST",
         body: form,
         signal: controller.signal,
